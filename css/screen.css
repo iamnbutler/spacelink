@@ -50,7 +50,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   display: block; }
 
 html {
-  font-family: "Source Sans Pro", "source-sans-pro", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+  font-family: "Source Sans Pro", "source-sans-pro", monospace;
+  color: #21FC7A; }
 
 html, html a {
   -webkit-font-smoothing: antialiased !important;
@@ -81,11 +82,53 @@ body {
   width: 100%;
   height: 100%;
   background-color: #15120B;
-  border: 6px solid #21FC7A; }
+  border: 4px solid #21FC7A; }
+
+.chart {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 3; }
+  .chart .test {
+    position: absolute;
+    top: 100px;
+    left: 200px;
+    width: 30px;
+    height: 30px;
+    background-color: #1ECF4D;
+    background-image: url("../img/scan.png");
+    background-blend-mode: multiply;
+    z-index: 1; }
+  .chart .scan {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background-image: url("../img/scan.png");
+    opacity: 0; }
 
 .sidebar {
   position: absolute;
+  background-color: #15120B;
+  z-index: 4;
   right: 0;
   width: 260px;
-  height: 100%;
-  border-left: 6px solid #21FC7A; }
+  border-left: 4px solid #21FC7A; }
+  .sidebar .info, .sidebar .controls {
+    padding: 16px;
+    border-bottom: 4px solid #21FC7A; }
+    .sidebar .info h1, .sidebar .controls h1 {
+      font-size: 18px;
+      line-height: 1.4;
+      font-weight: bold;
+      text-transform: uppercase; }
+    .sidebar .info p, .sidebar .controls p {
+      padding: 12px 0px;
+      line-height: 1.3; }
+    .sidebar .info a, .sidebar .controls a {
+      text-decoration: underline; }
+  .sidebar .controls h2 {
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: bold;
+    text-transform: uppercase; }

@@ -46,9 +46,11 @@ body {
 		// Define nodeTypes
 		&.nodeType1 {
 			background-color: #1B36C9;
+			opacity: 0.2 !important;
 		}
 		&.nodeType2 {
 			background-color: #C7350F;
+			opacity: 0.2 !important;
 		}
 	}
 	.scan {

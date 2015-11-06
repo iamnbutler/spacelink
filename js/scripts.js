@@ -1,5 +1,6 @@
 $(document).ready(function(){  
 
+// TODO: Think about adding data explorer (be able to load any page of the data)
 d3.tsv("data/nasa_19950801.tsv", function(error, data) { // Get data from TSV using D3
 
 	// Set up chart
@@ -7,28 +8,7 @@ d3.tsv("data/nasa_19950801.tsv", function(error, data) { // Get data from TSV us
 
 	// Set up nodes
 
-	var nodeSize		= 2; // in percent (5 = 5%)
-
-	// for (var i, i = 0; i < nodes.length; i++) {
-	// 	var $newNode = $('<div id="node-' + i + '" class="node"></div>'),
-	// 		nodeRow	 = parseInt(nodes[i][0]) * nodeSize,
-	// 		nodeCol	 = parseInt(nodes[i][1]) * nodeSize,
-	// 		nodeType = nodes[i][2],
-	// 		nodeTime = nodes[i][3];
-
-	// 	// TODO: build this comparison number w variable
-	// 	if (nodeCol > 41 ) {
-	// 		nodeRow++;
-	// 	}
-
-	// 	chart.append($newNode); // Append a new node
-	// 	var thisNode = $('#node-' + i); // Save node as a variable
-	// 	thisNode.css({ 
-	// 				top: nodeRow + '%', left: nodeCol + '%', // Position Node
-	// 				width: nodeSize + '%', height: nodeSize + '%', // Set node size
-	// 				opacity: nodeTime }) // Set node time 
-	// 			.addClass('nodeType' + nodeType); // Set node type
-	// }
+	var nodeSize = 2; // in percent (5 = 5%)
 
 	var nodeRow = 0,
 		nodeCol = 0;

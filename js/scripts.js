@@ -51,7 +51,3 @@ d3.tsv("data/nasa_19950801.tsv", function(error, data) { // Get data from TSV us
 }); // End d3.tsv
 
 }); // End doc.ready
-
-$(document).resize(function(){ 
-	// TODO: Update on window resize
-});

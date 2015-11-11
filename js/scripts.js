@@ -4,6 +4,7 @@ $(document).ready(function(){
 d3.tsv("data/full.tsv", function(error, data) { // Get data from TSV using D3
 
 	// Initial Variables
+	// TODO: Calculate cols + margin with window size
 	var chartRows 	= 140,
 		chartRow 			= 1,											// Current row
 		chartCols			= 260,
@@ -43,7 +44,7 @@ d3.tsv("data/full.tsv", function(error, data) { // Get data from TSV using D3
 				var response = data[i].response;
 
 				if (response == 302) { nodeType = 1; } 
-				else if (response == 304) { nodeType = 0; } 
+				else if (response == 304) { nodeType = 2; } 
 				else if (response == 404) { nodeType = 3; }
 
 				// Assign node bytes

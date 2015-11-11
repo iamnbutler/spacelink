@@ -68,6 +68,7 @@ body {
 }
 
 .sidebar {
+	display: none;
 	position: absolute;
 	background-color: #202a11;
 	background-image: url("../img/scan.png");
@@ -105,6 +106,7 @@ body {
 }
 
 .grad {
+	display: none;
 	position: absolute;
 	width: 100%;
 	height: 100%;

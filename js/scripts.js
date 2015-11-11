@@ -10,7 +10,7 @@ d3.tsv("data/full.tsv", function(error, data) { // Get data from TSV using D3
 		chartCols			= 260,
 		chartCol			= 1,											// Current col
 		pointW				= 4,											// Point height in px
-		pointH				= 16,											// Point width in px
+		pointH				= 12,											// Point width in px
 		vMargin 			= 2,											// Vertical margin between points
 		hMargin 			= 2;											// Horizontal margin between points
 		chartWidth 		= chartCols * pointW,			// Total chart width

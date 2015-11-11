@@ -1,53 +1,65 @@
 $(document).ready(function(){  
 
 // TODO: Think about adding data explorer (be able to load any page of the data)
-d3.tsv("data/nasa_19950801.tsv", function(error, data) { // Get data from TSV using D3
+d3.tsv("data/full.tsv", function(error, data) { // Get data from TSV using D3
+
+	// Initial Variables
+	var chartRows 	= 140,
+		chartRow 			= 1,											// Current row
+		chartCols			= 260,
+		chartCol			= 1,											// Current col
+		pointW				= 4,											// Point height in px
+		pointH				= 16,											// Point width in px
+		vMargin 			= 2,											// Vertical margin between points
+		hMargin 			= 2;											// Horizontal margin between points
+		chartWidth 		= chartCols * pointW,			// Total chart width
+		chartHeight 	= chartRows * pointH;			// Total chart height
+		nodeType 			= 0; 											// 0 = 200, 1 = 302, 2 = 304, 3 = 404
 
 	// Set up chart
-	var chart = $("#chart");
+	var chart = d3.select(".chart")
+		.attr("width", chartWidth)
+		.attr("height", chartHeight);
 
-	// Set up nodes
-
-	var nodeSize = 2; // in percent (5 = 5%)
-
-	var nodeRow = 0,
-		nodeCol = 0;
-
-	for (var i, i = 0; i < 1681; i++) {
-
-		// TODO: build this comparison number w variable
-		if (nodeCol > 41 ) {
-			nodeRow++;
-			nodeCol = 0;
+	function col() {
+		// Check the column number, add add a row if col > cols
+		if (chartCol < chartCols) {
+			chartCol++;
+		} else {
+			// Reset column and start next row
+			chartCol = 1;
+			chartRow++;
 		}
+	}
 
-		var response = data[i].response,
-			nodeType = 0; // 0 = 200, 1 = 302, 2 = 304, 3 = 404
+	// Chart data points
+	var point = chart.selectAll("g")
+		.data(data).enter().append("rect")
+			.attr("id", function(d,i) { return 'r' + i })
+			.attr("width", pointW)
+			.attr("height", pointH)
+			.each(function(d,i) {
+				// Assign node type
+				var response = data[i].response;
 
-		if (response == 302) {
-			nodeType = 1;
-		} else if (response == 304) {
-			nodeType = 2;
-		} else if (response == 404) {
-			nodeType = 3;
-		}
+				if (response == 302) { nodeType = 1; } 
+				else if (response == 304) { nodeType = 0; } 
+				else if (response == 404) { nodeType = 3; }
 
-		var $newNode = $('<div id="node-' + i + '" class="node"></div>'),
-			row		 = nodeRow * nodeSize,
-			col		 = nodeCol * nodeSize,
-			nodeBytes = (Math.max(data[i].bytes, 10000) / 100000) - 0.1; // Constrain data to 10k bytes (10kb) and convert to 0 - 1 range
+				// Assign node bytes
+				nodeBytes = (Math.max(data[i].bytes, 10000) / 100000) - 0.1; // Constrain data to 10k bytes (10kb) and convert to 0 - 1 range 
+				
+				// Set point attrs
+				$('#r' + i)
+					.attr("class", 'point nodeType' + nodeType)
+					.attr("x", function(d,i) { return ((chartCol * pointW) + (chartCol * hMargin)) })
+					.attr("y", function(d,i) { return ((chartRow * pointH) + (chartRow * vMargin)) })
+					.attr("opacity", nodeBytes);
+				
+				// Set up next col/row
+				col();
 
-		chart.append($newNode); // Append a new node
-		var thisNode = $('#node-' + i); // Save node as a variable !! Must come after element is appended !!
-		thisNode.css({ 
-			top: row + '%', left: col + '%', // Position Node
-			width: nodeSize + '%', height: nodeSize + '%', // Set node size
-			opacity: nodeBytes // Set node time 
-			}) 
-			.addClass('nodeType' + nodeType); // Set node type
-
-		nodeCol++;
-	};
+			}); // End .each
 }); // End d3.tsv
 
 }); // End doc.ready

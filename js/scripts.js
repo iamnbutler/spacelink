@@ -1,6 +1,11 @@
+// Set up controls before docready
+$('.btn').click(function(){
+	return false;
+});
+
 $(document).ready(function(){  
 
-var interval = 4000; // Grid move interval (in ms)
+var interval = 6000; // Grid move interval (in ms)
 
 // TODO: Think about adding data explorer (be able to load any page of the data)
 d3.tsv("data/full.tsv", function(error, data) { // Get data from TSV using D3
@@ -9,7 +14,7 @@ d3.tsv("data/full.tsv", function(error, data) { // Get data from TSV using D3
 	// TODO: Calculate cols + margin with window size
 	var chartRows 			= 200,
 		chartRow 			= 1,											// Current row
-		chartCols			= 140,
+		chartCols			= 180,
 		chartCol			= 1,											// Current col
 		pointW				= 4,											// Point height in px
 		pointH				= 10,											// Point width in px
@@ -57,6 +62,7 @@ d3.tsv("data/full.tsv", function(error, data) { // Get data from TSV using D3
 					.attr("class", 'point nodeType' + nodeType)
 					.attr("x", function(d,i) { return ((chartCol * pointW) + (chartCol * hMargin)) })
 					.attr("y", function(d,i) { return ((chartRow * pointH) + (chartRow * vMargin)) })
+					.attr("stroke-opacity", nodeBytes)
 					.attr("fill-opacity", nodeBytes);
 				
 				// This takes a lot of memory to run, so only uncomment when needed
@@ -64,10 +70,6 @@ d3.tsv("data/full.tsv", function(error, data) { // Get data from TSV using D3
 					// Delete any nodes that wouldn't be seen anyways
 					// This makes it so the browser doesn't get bogged down animating invisible elements
 					$('#r' + i).remove();
-					if ($('#r' + i).is(':last-child')){
-						console.log('last');
-					}
-					console.log("deleted");
 				}
 
 				// Set up next col/row
@@ -76,18 +78,59 @@ d3.tsv("data/full.tsv", function(error, data) { // Get data from TSV using D3
 			}); // End .each
 }); // End d3.tsv
 
-setInterval(function () {
+// Load for 2 seconds then stop
+setInterval(function(){
+	$('#loading').remove();
+}, 1400);
+
+function chartInterval(){
+	// Set up timer to move chart
+	setInterval(function () {
+		var posY = parseInt($('.chart').offset().top);
+		if (posY <= -1500) {
+			// reset chart if it moves too far
+			posY = 0;
+		} else if (posY >= 10) {
+			posY = 0;
+		}
+		posY = posY - 36;
+	    // Move the chart up every x seconds
+	    $('.chart').offset({ top: posY });
+	}, interval);
+}
+
+// Run Timer
+chartInterval();
+
+// Store id to clear interval
+var chartI = chartInterval();
+
+$('.toggle-btn').click(function(){
+	$('.sidebar').toggle();
+	$('.close-btn').toggle();
+	$('.info-btn').toggle();
+});
+
+$('.up-btn').click(function(){
 	var posY = parseInt($('.chart').offset().top);
 	if (posY <= -1500) {
 		// reset chart if it moves too far
 		posY = 0;
-	} else {
-		// Move chart up
-		posY = posY - 18;
+	} else if (posY >= 10) {
+		posY = 0;
 	}
-	console.log(posY);
-    // Move the chart up every x seconds
-    $('.chart').offset({ top: posY });
-}, interval);
+	$('.chart').offset({ top: posY - 100 });
+});
+
+$('.down-btn').click(function(){
+	var posY = parseInt($('.chart').offset().top);
+	if (posY <= -1500) {
+		// reset chart if it moves too far
+		posY = 0;
+	} else if (posY >= 10) {
+		posY = 0;
+	}
+	$('.chart').offset({ top: posY + 100 });
+});
 
 }); // End doc.ready

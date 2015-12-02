@@ -1,18 +1,20 @@
 $(document).ready(function(){  
 
+var interval = 4000; // Grid move interval (in ms)
+
 // TODO: Think about adding data explorer (be able to load any page of the data)
 d3.tsv("data/full.tsv", function(error, data) { // Get data from TSV using D3
 
 	// Initial Variables
 	// TODO: Calculate cols + margin with window size
-	var chartRows 	= 140,
+	var chartRows 			= 200,
 		chartRow 			= 1,											// Current row
-		chartCols			= 260,
+		chartCols			= 140,
 		chartCol			= 1,											// Current col
 		pointW				= 4,											// Point height in px
-		pointH				= 16,											// Point width in px
-		vMargin 			= 2,											// Vertical margin between points
-		hMargin 			= 2;											// Horizontal margin between points
+		pointH				= 10,											// Point width in px
+		vMargin 			= 4,											// Vertical margin between points
+		hMargin 			= 4;											// Horizontal margin between points
 		chartWidth 		= chartCols * pointW,			// Total chart width
 		chartHeight 	= chartRows * pointH;			// Total chart height
 		nodeType 			= 0; 											// 0 = 200, 1 = 302, 2 = 304, 3 = 404
@@ -55,12 +57,34 @@ d3.tsv("data/full.tsv", function(error, data) { // Get data from TSV using D3
 					.attr("class", 'point nodeType' + nodeType)
 					.attr("x", function(d,i) { return ((chartCol * pointW) + (chartCol * hMargin)) })
 					.attr("y", function(d,i) { return ((chartRow * pointH) + (chartRow * vMargin)) })
-					.attr("opacity", nodeBytes);
+					.attr("fill-opacity", nodeBytes);
 				
+				// This takes a lot of memory to run, so only uncomment when needed
+				if (nodeBytes == 0) {
+					// Delete any nodes that wouldn't be seen anyways
+					// This makes it so the browser doesn't get bogged down animating invisible elements
+					$('#r' + i).remove();
+					console.log("deleted");
+				}
+
 				// Set up next col/row
 				col();
 
 			}); // End .each
 }); // End d3.tsv
+
+setInterval(function () {
+	var posY = parseInt($('.chart').offset().top);
+	if (posY <= -3000) {
+		// reset chart if it moves too far
+		posY = 0;
+	} else {
+		// Move chart up
+		posY = posY - 18;
+	}
+	console.log(posY);
+    // Move the chart up every x seconds
+    $('.chart').offset({ top: posY });
+}, interval);
 
 }); // End doc.ready

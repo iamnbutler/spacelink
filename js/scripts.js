@@ -65,7 +65,7 @@ d3.tsv("data/full.tsv", function(error, data) { // Get data from TSV using D3
 					.attr("stroke-opacity", nodeBytes)
 					.attr("fill-opacity", nodeBytes);
 				
-				// This takes a lot of memory to run, so only uncomment when needed
+				// This takes a lot of memory to run, so only uncomment when needed or running final
 				if (nodeBytes == 0) {
 					// Delete any nodes that wouldn't be seen anyways
 					// This makes it so the browser doesn't get bogged down animating invisible elements
@@ -87,7 +87,7 @@ function chartInterval(){
 	// Set up timer to move chart
 	setInterval(function () {
 		var posY = parseInt($('.chart').offset().top);
-		if (posY <= -1500) {
+		if (posY <= -1400) {
 			// reset chart if it moves too far
 			posY = 0;
 		} else if (posY >= 10) {
@@ -113,7 +113,7 @@ $('.toggle-btn').click(function(){
 
 $('.up-btn').click(function(){
 	var posY = parseInt($('.chart').offset().top);
-	if (posY <= -1500) {
+	if (posY <= -1400) {
 		// reset chart if it moves too far
 		posY = 0;
 	} else if (posY >= 10) {
@@ -124,7 +124,7 @@ $('.up-btn').click(function(){
 
 $('.down-btn').click(function(){
 	var posY = parseInt($('.chart').offset().top);
-	if (posY <= -1500) {
+	if (posY <= -1400) {
 		// reset chart if it moves too far
 		posY = 0;
 	} else if (posY >= 10) {

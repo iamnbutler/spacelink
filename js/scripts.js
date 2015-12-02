@@ -64,6 +64,9 @@ d3.tsv("data/full.tsv", function(error, data) { // Get data from TSV using D3
 					// Delete any nodes that wouldn't be seen anyways
 					// This makes it so the browser doesn't get bogged down animating invisible elements
 					$('#r' + i).remove();
+					if ($('#r' + i).is(':last-child')){
+						console.log('last');
+					}
 					console.log("deleted");
 				}
 
@@ -75,7 +78,7 @@ d3.tsv("data/full.tsv", function(error, data) { // Get data from TSV using D3
 
 setInterval(function () {
 	var posY = parseInt($('.chart').offset().top);
-	if (posY <= -3000) {
+	if (posY <= -1500) {
 		// reset chart if it moves too far
 		posY = 0;
 	} else {
